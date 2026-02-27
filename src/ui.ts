@@ -1,6 +1,6 @@
 import { checkbox } from "@inquirer/prompts";
 import chalk from "chalk";
-import { getAllMcpServers } from "./config.js";
+import { getAllMcpServers, getConfigLabel } from "./config.js";
 import type { ServerToggleItem } from "./types.js";
 
 export function createServerToggleItems(): ServerToggleItem[] {
@@ -30,11 +30,12 @@ export function createServerToggleItems(): ServerToggleItem[] {
 
 export async function showServerToggleUI(): Promise<string[]> {
 	const items = createServerToggleItems();
+	const configLabel = getConfigLabel();
 
 	if (items.length === 0) {
 		console.log(
 			chalk.yellow(
-				"No MCP servers found in ~/.claude.json or ~/.claude-ext.json",
+				`No MCP servers found in ${configLabel} or ~/.claude-ext.json`,
 			),
 		);
 		return [];
@@ -44,10 +45,11 @@ export async function showServerToggleUI(): Promise<string[]> {
 	console.log(
 		chalk.gray("Select which MCP servers should be active in Claude:"),
 	);
+	console.log(chalk.gray(`Config: ${configLabel}`));
 	console.log();
 
 	const selectedServers = await checkbox({
-		message: "Toggle MCP servers (active servers will be in ~/.claude.json):",
+		message: `Toggle MCP servers (active servers will be in ${configLabel}):`,
 		choices: items,
 		pageSize: 15,
 	});

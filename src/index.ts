@@ -10,7 +10,7 @@ const program = new Command();
 program
 	.name("claude-ext")
 	.description("Claude MCP Server Manager")
-	.version("1.0.0")
+	.version("1.1.0")
 	.argument("[command]", "mcp command")
 	.action(async (command?: string) => {
 		if (command === "mcp") {
